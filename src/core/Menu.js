@@ -16,9 +16,16 @@ const Menu = ({ history }) => (
 			<li className="nav-item">
 				<Link to="/" className="nav-link" style={isActive(history, '/')} >Home</Link>
 			</li>
-			<li className="nav-item">
-				<Link to="/user/dashboard" className="nav-link" style={isActive(history, '/dashboard')} >Dashboard</Link>
-			</li>
+			{isAuthenticated() && isAuthenticated().user.role === 0 && (
+				<li className="nav-item">
+					<Link to="/user/dashboard" className="nav-link" style={isActive(history, '/user/dashboard')} >Dashboard</Link>
+				</li>
+			)}
+			{isAuthenticated() && isAuthenticated().user.role === 1 && (
+				<li className="nav-item">
+					<Link to="/admin/dashboard" className="nav-link" style={isActive(history, '/admin/dashboard')} >Dashboard</Link>
+				</li>
+			)}
 			{isAuthenticated() ? 
 				<li className="nav-item">
 					<span onClick={() => signout(() => {

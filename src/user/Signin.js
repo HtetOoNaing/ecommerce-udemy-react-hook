@@ -63,6 +63,9 @@ const Signin = () => {
 				return <Redirect to="/user/dashboard" />
 			}
 		}
+		if(isAuthenticated()) {
+			return <Redirect to="/" />
+		}
 	}
 	return (
 		<Layout title="Signup" description="Signup to Node React E-commerce App" className="container col-md-8 offset-md-2">
