@@ -37,11 +37,11 @@ const Signin = () => {
 		<form onSubmit={handleSubmit}>
 			<div className="form-group">
 				<label className="text-muted">Email</label>
-				<input value={email} onChange={handleChange('email')} type="email" className="form-control" />
+				<input type="email" value={email} onChange={handleChange('email')} className="form-control" />
 			</div>
 			<div className="form-group">
 				<label className="text-muted">Password</label>
-				<input value={password} onChange={handleChange('password')} type="password" className="form-control" />
+				<input type="password" value={password} onChange={handleChange('password')} className="form-control" autoComplete="on" />
 			</div>
 			<button type="submit" className="btn btn-primary">Submit</button>
 		</form>

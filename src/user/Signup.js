@@ -46,7 +46,7 @@ const Signup = () => {
 			</div>
 			<div className="form-group">
 				<label className="text-muted">Password</label>
-				<input value={password} onChange={handleChange('password')} type="password" className="form-control" />
+				<input value={password} onChange={handleChange('password')} type="password" className="form-control" autoComplete="on" />
 			</div>
 			<button type="submit" className="btn btn-primary">Submit</button>
 		</form>

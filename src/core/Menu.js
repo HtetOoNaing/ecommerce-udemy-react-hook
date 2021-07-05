@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { signout } from '../auth';
+import { signout, isAuthenticated } from '../auth';
 
 const isActive = (history, path) => {
 	if (history.location.pathname === path) {
@@ -11,24 +11,29 @@ const isActive = (history, path) => {
 }
 
 const Menu = ({ history }) => (
-	<div>
+	<>
 		<ul className="nav nav-tabs bg-primary">
 			<li className="nav-item">
 				<Link to="/" className="nav-link" style={isActive(history, '/')} >Home</Link>
 			</li>
-			<li className="nav-item">
-				<Link to="/signin" className="nav-link" style={isActive(history, '/signin')} >Signin</Link>
-			</li>
-			<li className="nav-item">
-				<Link to="/signup" className="nav-link" style={isActive(history, '/signup')} >Signup</Link>
-			</li>
-			<li className="nav-item">
-				<span onClick={() => signout(() => {
-					history.push('/');
-				})} className="nav-link" style={{cursor: 'pointer', color: '#fff'}} >Signout</span>
-			</li>
+			{isAuthenticated() ? 
+				<li className="nav-item">
+					<span onClick={() => signout(() => {
+						history.push('/');
+					})} className="nav-link" style={{cursor: 'pointer', color: '#fff'}} >Signout</span>
+				</li>
+			: (
+				<Fragment>
+					<li className="nav-item">
+						<Link to="/signin" className="nav-link" style={isActive(history, '/signin')} >Signin</Link>
+					</li>
+					<li className="nav-item">
+						<Link to="/signup" className="nav-link" style={isActive(history, '/signup')} >Signup</Link>
+					</li>
+				</Fragment>
+			)}
 		</ul>
-	</div>
+	</>
 )
  
 export default withRouter(Menu);
