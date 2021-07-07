@@ -32,7 +32,7 @@ const AdminDashboard = () => {
 	);
 	
 	return ( 
-		<Layout title="User Dashboard" description={`G'day ${name}!`} className="container-fluid">
+		<Layout title="Dashboard" description={`G'day ${name}!`} className="container-fluid">
 			<div className="row">
 				<div className="col-3">
 					{adminLinks()}
