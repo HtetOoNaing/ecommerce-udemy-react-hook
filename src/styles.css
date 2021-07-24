@@ -13,11 +13,11 @@
     min-height: 100px;
 }
 
-.jumbotron h2 {
-    padding-top: 10vh;
+/* .jumbotron h2 {
+    margin-top: -20px;
 }
 
-/* @media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
     .jumbotron h2 {
         margin-top: 10px;
     }
@@ -29,6 +29,7 @@
 .jumbotron {
     width: 30wh;
     height: 30vh;
+    padding: 10vh 0 0 5vh;
     color: #fff;
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
