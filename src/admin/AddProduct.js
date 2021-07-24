@@ -6,67 +6,79 @@ import { createProduct } from './apiAdmin';
 
 
 const AddProduct = () => {
-	const [name, setName] = useState('');
-	const [error, setError] = useState(false);
-	const [success, setSuccess] = useState(false);
+	
+    const [values, setValues] = useState({
+        name: '',
+        description: '',
+        price: '',
+        categories: [],
+        category: '',
+        shipping: '',
+        quantity: '',
+        photo: '',
+        loading: false,
+        error: '',
+        createdProduct: '',
+        redirectToProfile: false,
+        formData: ''
+    });
 
 	// destructure user and info from localstorage
 	const {user, token} = isAuthenticated();
 
-	const handleChange = (e) => {
-		setError('');
-		setName(e.target.value);
-	}
+    const { name, description, price, categories, category, shipping, quantity, loading, error, createdProduct, redirectToProfile, formData } = values;
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		setError('');
-		setSuccess(false);
-		// make request to api to create category
-		createProduct(user._id, token, {name}).then(data => {
-			if(data.error) {
-				setError(true);
-			} else {
-				setError('');
-				setSuccess(true)
-			}
-		})
-	}
-	
-	const newProductForm = () => (
-		<form onSubmit={handleSubmit}>
-			<div className="form-group">
-				<label className="text-muted">Name</label>
-				<input type="text" className="form-control" onChange={handleChange} value={name} autoFocus required />
-			</div>
-			<button className="btn btn-outline-primary">Create Category</button>
-		</form>
-	);
+    const handleChange = name => event => {
+        const value = name === 'photo' ? event.target.files[0] : event.target.value;
+        setValues({...values, [name]: value})
+    }
 
-	const showSuccess = () => {
-		if(success) {
-			return <h3 className="text-success">{name} is created</h3>
-		}
-	}
-	const showError = () => {
-		if(error) {
-			return <h3 className="text-danger">Category should be unique!</h3>
-		}
-	}
-	const goBack = () => (
-		<div className="mt-5">
-			<Link to="/admin/dashboard" className="text-warning">Back to Dashboard</Link>
-		</div>
-	)
+    const newPostForm = () => (
+        <form className="mb-3">
+            <h4>Post Photo</h4>
+            <div className="form-group">
+                <label className="btn btn-secondary">
+                    <input type="file" onChange={handleChange('photo')} name="photo" accept="image/*" />
+                </label>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Name</label>
+                <input type="text" onChange={handleChange('name')} className="form-control" value={name} />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Description</label>
+                <textarea onChange={handleChange('description')} className="form-control" value={description} />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Price</label>
+                <input type="number" onChange={handleChange('price')} className="form-control" value={price} />
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Category</label>
+                <select onChange={handleChange('category')} className="form-control">
+                    <option value="60fba168416650069d0f2a7b">Node</option>
+                </select>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Shipping</label>
+                <select onChange={handleChange('shipping')} className="form-control">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+            <div className="form-group">
+                <label className="text-muted">Quantity</label>
+                <input type="number" onChange={handleChange('quantity')} className="form-control" value={quantity} />
+            </div>
+            <button className="btn btn-outline-primary">Create Product</button>
+        </form>
+    )
 
 	return (
 		<Layout title="Add a new product" description={`G'day ${user.name}, ready to add a new product ?`} >
 			<div className="row">
 				<div className="col-md-8 offset-md-2">
-					{showSuccess()}
-					{showError()}
-					{newProductForm()}
-					{goBack()}
+                    {newPostForm()}
 				</div>
 			</div>  
 		</Layout>
