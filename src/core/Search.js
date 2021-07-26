@@ -49,6 +49,14 @@ const Search = () => {
         setData({...data, [name]: event.target.value, searched: false})
     }
 
+    const searchProducts = (results = []) => {
+        return (
+            <div className="row">
+                {results.map((product, i) => (<Card key={i} product={product} />) )}
+            </div>
+        )
+    }
+
     const searchForm = () => (
         <form onSubmit={searchSubmit}>
             <div className="input-group input-group-lg">
@@ -69,6 +77,7 @@ const Search = () => {
     return (
         <div className="row">
             <div className="container mb-4 mt-5">{searchForm()}</div>
+            <div className="container-fluid mb-4 mt-5">{searchProducts(results)}</div>
         </div>
     )
 }
