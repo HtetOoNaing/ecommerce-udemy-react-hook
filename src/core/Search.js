@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
-import { getCategories, getProducts, list } from './apiCore';
+import { getCategories, list } from './apiCore';
 import Card from './Card';
 
 const Search = () => {
@@ -74,7 +74,7 @@ const Search = () => {
             <div className="input-group input-group-lg">
                 <div className="input-group-text">
                     <select className="btn mr-2" onChange={handleChange('category')}>
-                        <option value="All">Pick Category</option>
+                        <option value="All">All</option>
                         {categories.map((c, i) => (<option key={i} value={c._id}>{c.name}</option>))}
                     </select>
                 </div>
