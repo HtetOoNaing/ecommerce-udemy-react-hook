@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
-import { getCategories, getProducts } from './apiCore';
+import { getCategories, getProducts, list } from './apiCore';
 import Card from './Card';
 
 const Search = () => {
@@ -28,12 +28,25 @@ const Search = () => {
         loadCategories()
     }, []);
 
+    const searchData = () => {
+        if(search) {
+            list({search: search || undefined, category: category}).then(response => {
+                if(response.error) {
+                    console.log(response.error);
+                } else {
+                    setData({...data, results: response, searched: true})
+                }
+            })
+        }
+    }
+
     const searchSubmit = (event) => {
-        //
+        event.preventDefault();
+        searchData();
     }
 
     const handleChange = name => event => {
-        //
+        setData({...data, [name]: event.target.value, searched: false})
     }
 
     const searchForm = () => (
