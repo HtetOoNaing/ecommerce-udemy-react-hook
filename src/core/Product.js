@@ -25,7 +25,7 @@ const Product = (props) => {
 
     return (
 		<Layout title={product && product.name} description={product && product.description && product.description.substring(0, 100)} className="container-fluid">
-            <div className="row">
+            <div className="mt-4">
                 {product && product.description && <Card product={product} showViewProductButton={false} />}
             </div>
 		</Layout>
