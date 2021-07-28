@@ -2,22 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Layout from './Layout';
 import { getCart } from './cartHelpers';
 import Card from './Card';
-import Search from './Search';
 import { Link } from 'react-router-dom';
+import Checkout from './Checkout';
 
 const Cart = () => {
     const [items, setItems] = useState([]);
+    const [run, setRun] = useState(false);
 
     useEffect(() => {
         setItems(getCart());
-    }, []);
+    }, [run]);
 
     const showItems = items => {
         return (
             <div>
                 <h2>Your cart has {items.length}</h2>
                 <hr />
-                {items.map((product, i) => (<Card key={i} product={product} showAddToCartButton={false} cartUpdate={true} />))}
+                {items.map((product, i) => (<Card key={i} product={product} showAddToCartButton={false} cartUpdate={true} showRemoveProductButton={true} setRun={setRun} run={run} />))}
             </div>
         )
     }
@@ -33,7 +34,9 @@ const Cart = () => {
                     {items.length > 0 ? showItems(items) : noItemsMessage()}
                 </div>
                 <div className="col-6">
-                    <p>show checkout options/shipping address/total/update quantity</p>
+                    <h2 className="mb-4">Your cart summary</h2>
+                    <hr />
+                    <Checkout products={items} />
                 </div>
             </div>
 		</Layout>

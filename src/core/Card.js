@@ -2,12 +2,12 @@ import moment from "moment";
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import ShowImage from "./ShowImage";
-import { addItem, updateItem } from "./cartHelpers";
+import { addItem, updateItem, removeItem } from "./cartHelpers";
 
-const Card = ({ product, showViewProductButton = true, showAddToCartButton = true, cartUpdate = false }) => {
+const Card = ({ product, showViewProductButton = true, showAddToCartButton = true, cartUpdate = false, showRemoveProductButton = false, setRun = f => f, run = undefined }) => {
 
     const [redirect, setRedirect] = useState(false);
-    const [count, setCount] = useState(product.length);
+    const [count, setCount] = useState(product.count);
 
     const addToCart = () => {
         addItem(product, () => {
@@ -24,11 +24,15 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
     const showViewButton = showViewProductButton => {
         return (showViewProductButton && <Link to={`/product/${product._id}`} className="btn btn-outline-primary mt-2 mb-2 me-2">View Product</Link>)
     }
+    const showRemoveButton = showRemoveProductButton => {
+        return (showRemoveProductButton && <button onClick={() => {removeItem(product._id);  setRun(!run);}} className="btn btn-outline-danger mt-2 mb-2">Remove Product</button>)
+    }
     const showAddToCart = showAddToCartButton => (showAddToCartButton && <button onClick={addToCart} className="btn btn-outline-warning mt-2 mb-2">Add to cart</button>);
     const showStock = quantity => {
         return quantity > 0 ? <span className="badge bg-primary rounded-pill">In Stock</span> : <span className="badge bg-primary rounded-pill">Out of Stock</span>
     }
     const handleChange = productId => event => {
+        setRun(!run);
         setCount(event.target.value < 1 ? 1 : event.target.value);
         if(event.target.value >= 1) {
             updateItem(productId, event.target.value)
@@ -61,6 +65,7 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
                 <br />
                 {showViewButton(showViewProductButton)}
                 {showAddToCart(showAddToCartButton)}
+                {showRemoveButton(showRemoveProductButton)}
                 {showCartUpdateOptions(cartUpdate)}
             </div>
         </div>
