@@ -30,10 +30,13 @@ const Checkout = ({products, setRun}) => {
             amount: getTotal(),
             address: data.address
         }
-        createOrder(userId, token, createOrderData)
-        emptyCart(() => {
-            console.log('payment success and empty cart');
-            setRun((run) => !run)
+        createOrder(userId, token, createOrderData).then(response => {
+            emptyCart(() => {
+                console.log('payment success and empty cart');
+                setRun((run) => !run)
+            })
+        }).catch(err => {
+            console.log(err);
         })
     }
     const showCheckout = () => {
