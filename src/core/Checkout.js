@@ -25,6 +25,7 @@ const Checkout = ({products, setRun}) => {
         setData({...data, address: event.target.value})
     }
     const checkout = () => {
+        setData({...data, loading: true, success: '', error: ''})
         const createOrderData = {
             products: products,
             amount: getTotal(),
@@ -33,10 +34,12 @@ const Checkout = ({products, setRun}) => {
         createOrder(userId, token, createOrderData).then(response => {
             emptyCart(() => {
                 console.log('payment success and empty cart');
-                setRun((run) => !run)
+                setRun((run) => !run);
+                setData({...data, address: '', success: 'Checkout successfully!'});
             })
         }).catch(err => {
             console.log(err);
+            setData({...data, address: '', error: 'Checkout fail. Please try again!'});
         })
     }
     const showCheckout = () => {
@@ -54,10 +57,27 @@ const Checkout = ({products, setRun}) => {
             </Link>
         )
     }
+    const showLoading = () => {
+        if(data.loading) {
+            return <h3 className="text-primary">Loading ... </h3>
+        }
+    }
+    const showSuccess = () => {
+        if(data.success) {
+			return <h3 className="text-success">{data.success}</h3>
+		}
+    }
+    const showError = () => {
+        if(data.error) {
+            return <h3 className="text-danger">{data.error}</h3>
+        }
+    }
     return (
         <div>
             <h2>Total: ${getTotal()}</h2>
-
+            {showLoading()}
+            {showSuccess()}
+            {showError()}
             {showCheckout()}
         </div>
     );
